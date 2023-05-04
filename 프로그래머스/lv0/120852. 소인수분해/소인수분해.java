@@ -2,22 +2,33 @@ import java.util.*;
 class Solution {
     public int[] solution(int n) {
         int[] answer = {};
-        Set<Integer> set = new TreeSet<>();
+        int idx = 0;
+        int[] arr = new int[n + 1];
+        int divisor = 2;
         
-        for (int i = 2; i <= n; i++) {
-            if (n % i == 0) {
-                // System.out.println(i);
-                set.add(i);
-                n /= i;
-                i--;
+        while (n > 1) {
+            if (n % divisor == 0) {
+                arr[divisor] = divisor;
+                n /= divisor;
+            } else {
+                divisor++;
             }
-            
         }
-        // answer = new int[set.size()];
-        // int count = 0;
-        // for (Integer s : set) {
-        //     answer[count++] = s;
-        // }
-        return set.stream().mapToInt(Integer::intValue).toArray();
+        
+        int size = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 0) {
+                size++;
+            }
+        }
+        
+        answer = new int[size];
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 0) {
+                answer[idx++] = arr[i];
+            }
+        }
+        
+        return answer;
     }
 }
