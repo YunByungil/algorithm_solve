@@ -15,9 +15,7 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
         
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = -1;
-        }
+        
         
         bfs(n);
         System.out.println(arr[k]);
@@ -49,7 +47,7 @@ public class Main {
                        continue;
                     }
                     
-                    if (arr[move] == -1 && !visit[move]) {
+                    if (arr[move] == 0 && !visit[move]) {
                         q.offer(move);
                         visit[move] = true;
                         arr[move] = arr[nowLocation] + 1;
@@ -60,7 +58,7 @@ public class Main {
                 else if (move < 0 || move > 100_000) {
                     continue;
                 } else {
-                    if (arr[move] == -1 && !visit[move]) {
+                    if (arr[move] == 0 && !visit[move]) {
                     q.offer(move);
                     visit[move] = true;
                     arr[move] = arr[nowLocation] + 1;
