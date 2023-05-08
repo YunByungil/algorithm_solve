@@ -34,20 +34,6 @@ public class Main {
             }
         }
         
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < n; j++) {
-        //         System.out.print(arr[i][j]);
-        //     }
-        //     System.out.println();
-        // }
-        
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < n; j++) {
-        //         System.out.print(arr2[i][j]);
-        //     }
-        //     System.out.println();
-        // }
-        
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (!visit[i][j]) {
@@ -60,14 +46,8 @@ public class Main {
                 }
             }
         }
-        /////////////////////////////////////////////////// 
-        
-        
-        
-        
         
         System.out.print(answer + " " + answer2);
-        
     }
     
     public static void bfs(int y, int x, String c) {
@@ -93,7 +73,6 @@ public class Main {
                 if (!visit[newY][newX] && arr[newY][newX].equals(c)) {
                     q.offer(new int[]{newY, newX});
                     visit[newY][newX] = true;
-                    // arr[newY][newX] = "Y";
                 }
             }
         }
@@ -122,18 +101,8 @@ public class Main {
                 if (!visit2[newY][newX] && arr2[newY][newX].equals(c)) {
                     q.offer(new int[]{newY, newX});
                     visit2[newY][newX] = true;
-                    // arr2[newY][newX] = "Y";
                 }
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
