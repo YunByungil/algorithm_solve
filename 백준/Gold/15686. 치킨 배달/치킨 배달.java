@@ -1,86 +1,84 @@
-// "static void main" must be defined in a public class.
 import java.io.*;
 import java.util.*;
 
 public class Main {
-    public static class Point {
-        int x;
-        int y;
-        
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-    public static int n, m; // n: 크기, m: 최대 치킨 집 개수
-    public static int[][] arr;
-    public static ArrayList<Point> house = new ArrayList<>();
-    public static ArrayList<Point> chicken = new ArrayList<>();
-    public static int ans;
-    public static boolean[] visit;
+    static int n;
+    static int m;
+    static int answer;
     
+    static int[][] chickens;
+    static int[][] houses;
+    static int cidx;
+    static int hidx;
+    static boolean[] visited;
     
     public static void main(String[] args) throws IOException {
-        // 0: 빈 칸, 1: 집, 2: 치킨집
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         
-        arr = new int[n][n];
-        visit = new boolean[n];
+        chickens = new int[13][2];
+        houses = new int[2*n][2];
+        answer = Integer.MAX_VALUE;
         
-        for (int i = 0; i < n; i++) {
+        cidx = 0;
+        hidx = 0;
+        for (int i=1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+            for (int j=1; j <= n; j++) {
+                int tmp = Integer.parseInt(st.nextToken());
                 
-                if (arr[i][j] == 1) {
-                    house.add(new Point(i, j));
-                } else if (arr[i][j] == 2) {
-                    chicken.add(new Point(i, j));
+                if (tmp == 2) { // 치킨집
+                    chickens[cidx++] = new int[] {i, j};
+                } else if (tmp == 1) { // 집
+                    houses[hidx++] = new int[] {i, j};                    
                 }
             }
         }
         
-        ans = Integer.MAX_VALUE;
-        visit = new boolean[chicken.size()];
         
-        dfs(0, 0);
-        System.out.println(ans);
+        visited = new boolean[cidx];
+        search(0, 0);
         
+        bw.write(answer + "");
+        bw.flush();
+        br.close();
     }
     
-    public static void dfs(int depth, int start) {
-        if (depth == m) {
-            int result = 0;
-            
-            for (int i = 0; i < house.size(); i++) {
-                int temp = Integer.MAX_VALUE;
-                
-                for (int j = 0; j < chicken.size(); j++) {
-                    if (visit[j]) {
-                        int resultX = Math.abs(house.get(i).x - chicken.get(j).x);
-                        int resultY = Math.abs(house.get(i).y - chicken.get(j).y);
-                        int distance = resultY + resultX;
-                        
-                        temp = Math.min(distance, temp);
-                    }
+    public static void search(int k, int start) {
+        // 치킨집 선택 완료 > 각 집과 거리 계산
+        if (k == m) {  
+            int total = 0;
+            for (int i=0; i < hidx; i++) {
+                int min = Integer.MAX_VALUE;
+                for(int j=0; j < cidx; j++) {
+                    if (visited[j] == false) continue;
+                    
+                    // 선택된 치킨집인 경우 > 거리 계산
+                    min = Math.min(min, distance(houses[i], chickens[j]));
                 }
-                result += temp;
+                total += min;
             }
-            ans = Math.min(ans, result);
+            
+            answer = Math.min(answer, total);
             return;
         }
-        
-        for (int i = start; i < chicken.size(); i++) {
-            if (!visit[i]) {
-                visit[i] = true;
-                dfs(depth + 1, i);
-                visit[i] = false;
-            }
+
+        // 치킨집 선택
+        for (int i=start; i < cidx; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                search(k + 1, i);
+                visited[i] = false;
+            }         
         }
-        
+    }
+    
+    
+    // 거리 계산
+    public static int distance(int[] house, int[] chicken) {
+        return Math.abs(house[0]-chicken[0]) + Math.abs(house[1]-chicken[1]); 
     }
 }
