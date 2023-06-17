@@ -141,7 +141,7 @@ public class Main {
 
     public static void checkRight(int[][] map, int x, int y) {
         for(int i=y+1; i<M; i++) {
-            if(map[x][i] == 6) return;
+            if(map[x][i] == 6) break;
             
             map[x][i] = 7;
         }
@@ -157,7 +157,7 @@ public class Main {
 
     public static void checkDown(int[][] map, int x, int y) {
         for(int i=x+1; i<N; i++) {
-            if(map[i][y] == 6) return;
+            if(map[i][y] == 6) break;
             if(map[i][y] != 0) continue;
             map[i][y] = -1;
         }
