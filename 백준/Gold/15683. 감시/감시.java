@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ public class Main {
 
     public static void dfs(int cnt, int[][] map) {
         if(cnt == cctv.size()) {
-            min = Math.min(min, getZeroCnt(map));
+            check(map);
             return;
         }
 
@@ -144,8 +142,8 @@ public class Main {
     public static void checkRight(int[][] map, int x, int y) {
         for(int i=y+1; i<M; i++) {
             if(map[x][i] == 6) return;
-            if(map[x][i] != 0) continue;
-            map[x][i] = -1;
+            
+            map[x][i] = 7;
         }
     }
 
@@ -185,4 +183,16 @@ public class Main {
         return tmp;
     }
 
+    public static void check(int[][] arr) {
+        int result = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (arr[i][j] == 0) {
+                    result++;
+                }
+            }
+        }
+
+        min = Math.min(min, result);
+    }
 }
