@@ -3,15 +3,14 @@ import java.io.*;
 
 public class Main {
     public static int n;
-    public static int min = Integer.MAX_VALUE;
     public static int[] dp;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
         n = Integer.parseInt(br.readLine());
+
         dp = new int[n + 1];
-        
         dp[1] = 0;
         
         for (int i = 2; i <= n; i++) {
@@ -25,6 +24,5 @@ public class Main {
         }
         
         System.out.println(dp[n]);
-        
     }
 }
