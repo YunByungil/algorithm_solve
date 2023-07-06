@@ -46,7 +46,7 @@ public class Main {
         while (start < endDay) {
             boolean isFind = false;
             
-            for (int i = 0; i < n; i++) {
+            for (int i = index; i < n; i++) {
                 if (arr[i][0] > start) {
                     break;
                 }
@@ -54,7 +54,7 @@ public class Main {
                 if (max < arr[i][1]) {
                     isFind = true;
                     max = arr[i][1];
-                    // index = i + 1;
+                    index = i + 1;
                 }
             }
             
