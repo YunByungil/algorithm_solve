@@ -21,15 +21,11 @@ public class Main {
             money[i] = Integer.parseInt(st.nextToken());
         }
         
-        int result = 0;
-        int index = 0;
-        for (int i = 0; i < dis.length; i++) {
-            if (money[i] > money[i + 1]) {
-                result += money[index] * dis[i];
-                index++;
-            }  else {
-                result += money[index] * dis[i];
-            }
+        int result = money[0] * dis[0];
+        int index = money[0];
+        for (int i = 1; i < dis.length; i++) {
+            index = Math.min(index, money[i]);
+            result += index * dis[i];
         }
         
         System.out.println(result);
