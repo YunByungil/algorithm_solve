@@ -1,43 +1,37 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static int n; // 도시의 개수
-    public static long[] distance; // 도로의 길이 왼쪽 -> 오른쪽
-    public static long[] price; // 왼쪽 -> 오른쪽 주유소 L당 가격
-
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-
-        distance = new long[n - 1];
-        price = new long[n];
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < distance.length; i++) {
-            distance[i] = Long.parseLong(st.nextToken());
-        }
-
+        StringTokenizer st = null;
+        
+        int n = Integer.parseInt(br.readLine());
+        int[] money = new int[n];
+        int[] dis = new int[n - 1];
+        
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < price.length; i++) {
-            price[i] = Long.parseLong(st.nextToken());
+        for (int i = 0; i < dis.length; i++) {
+            dis[i] = Integer.parseInt(st.nextToken());
         }
-
-        long sum = 0;
-        long minCost = price[0]; // 이전까지 주유소 비용
-
-        for (int i = 0; i < n - 1; i++) {
-
-            if (price[i] < minCost) {
-                minCost = price[i];
+        
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < money.length; i++) {
+            money[i] = Integer.parseInt(st.nextToken());
+        }
+        
+        int result = 0;
+        int index = 0;
+        for (int i = 0; i < dis.length; i++) {
+            if (money[i] > money[i + 1]) {
+                result += money[index] * dis[i];
+                index++;
+            }  else {
+                result += money[index] * dis[i];
             }
-
-            sum += (minCost * distance[i]);
         }
-
-        System.out.println(sum);
-
+        
+        System.out.println(result);
     }
 }
