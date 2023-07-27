@@ -1,34 +1,38 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
-    public static int n;
-    public static Map<Long, Integer> map = new HashMap<>();
-    
     public static void main(String[] args) throws IOException {
-        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        n = Integer.parseInt(br.readLine());
-        
+        int n = Integer.parseInt(br.readLine());
+        int maxCount = 0;
+        long maxValue = Long.MIN_VALUE;
+        int count = 0;
+        long[] arr = new long[n];
         for (int i = 0; i < n; i++) {
-            Long num = Long.parseLong(br.readLine());
-            
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            arr[i] = Long.parseLong(br.readLine());
         }
-        
-        int min = 0;
-        Long result = 0L;
-        
-        for (Long key : map.keySet()) {
-            if (min < map.get(key)) {
-                min = map.get(key);
-                result = key;                
-            } else if (min == map.get(key)) {
-                result = Math.min(key, result);
+        Arrays.sort(arr);
+
+        for (int i = 0; i < n; i++) {
+            if (i == 0 || arr[i - 1] == arr[i]) {
+                count++;
+            } else {
+                if (count > maxCount) {
+                    maxValue = arr[i - 1];
+                    maxCount = count;
+                }
+
+                count = 1;
             }
         }
-        
-        System.out.println(result);
-    }    
+
+        if (count > maxCount) {
+            maxValue = arr[n - 1];
+        }
+
+        System.out.println(maxValue);
+    }
 }
