@@ -20,19 +20,22 @@ public class Main {
         }
         Arrays.sort(arr);
         
-        int start = 0;
+        // int start = 0;
         int end = 0;
         int min = Integer.MAX_VALUE;
         
-        while (end < n && start < n) {
-            int sum = arr[end] - arr[start];
-            if (sum >= m) {
-                min = Math.min(min, sum);
-                start++;
-            } else if (sum < m) {
+        for (int start = 0; start < n; start++) {
+            while (end < n && arr[end] - arr[start] < m) {
                 end++;
             }
+            
+            if (end == n) {
+                break;
+            }
+            
+            min = Math.min(min, arr[end] - arr[start]);
         }
+        
         
         System.out.println(min);
     }
