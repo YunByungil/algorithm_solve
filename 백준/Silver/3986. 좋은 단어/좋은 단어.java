@@ -2,31 +2,31 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
+        StringTokenizer st = null;
         
         int n = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
         int answer = 0;
         
         for (int i = 0; i < n; i++) {
             Stack<Character> stack = new Stack<>();
-            String input = br.readLine();
-            for (int j = 0; j < input.length(); j++) {
-                char word = input.charAt(j);
+            String str = br.readLine();
+            
+            for (int j = 0; j < str.length(); j++) {
                 if (stack.isEmpty()) {
-                    stack.push(word);
+                    stack.push(str.charAt(j));
                 } else {
-                    if (stack.peek() == word) {
+                    if (stack.peek().equals(str.charAt(j))) {
                         stack.pop();
                     } else {
-                        stack.push(word);
+                        stack.push(str.charAt(j));
                     }
                 }
             }
             
-            if (stack.size() == 0) {
+            if (stack.isEmpty()) {
                 answer++;
             }
         }
