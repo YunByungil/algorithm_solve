@@ -12,27 +12,18 @@ public class Main {
         int[] arr = new int[10];
         
         while (n > 0) {
-            int num = n % 10;
-            if (n % 10 == 6) {
-                arr[9]++;
-            } else {
-                arr[n % 10]++;    
-            }
+            arr[n % 10]++;
             n /= 10;
         }
         
         int max = Integer.MIN_VALUE;
-        if (arr[9] % 2 == 0) {
-            arr[9] = arr[9] / 2;
-        } else {
-            arr[9] = arr[9] / 2 + 1;
-        }
-        
-        for (int i : arr) {
-            if (i > 0) {
-                max = Math.max(max, i);
+        for (int i = 0; i < 10; i++) {
+            if (i == 6 || i == 9) {
+                continue;
             }
+            max = Math.max(max, arr[i]);
         }
+        max = Math.max(max, (arr[6] + arr[9] + 1) / 2);
         
         System.out.println(max);
     }
