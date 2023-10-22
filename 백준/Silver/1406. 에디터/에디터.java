@@ -1,54 +1,54 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static String str;
-    public static int M;
-
-    public static Stack<Character> left = new Stack<>();
-    public static Stack<Character> right = new Stack<>();
-    public static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        str = br.readLine();
-        M = Integer.parseInt(br.readLine());
-
+        StringTokenizer st = null;
+        
+        Stack<Character> left = new Stack<>();
+        Stack<Character> right = new Stack<>();
+        
+        String str = br.readLine();
         for (int i = 0; i < str.length(); i++) {
-            left.add(str.charAt(i));
+            left.push(str.charAt(i));
         }
-
-        for (int i = 0; i < M; i++) {
+        
+        int n = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < n; i++) {
             String input = br.readLine();
-
+            
             if (input.equals("L")) {
-                if (!left.isEmpty()) {
-                    right.push(left.pop());
+                if (left.size() == 0) {
+                    continue;
                 }
-            } else if (input.equals("D")) { // 커서를 오른쪽으로 이동
-                if (!right.isEmpty()) {
-                    left.push(right.pop());
+                right.push(left.pop());
+            } else if (input.equals("D")) {
+                if (right.size() == 0) {
+                    continue;
                 }
-            } else if (input.equals("B")) { // 왼쪽에 있는 문자를 삭제
-                if (!left.isEmpty()) {
-                    left.pop();
+                left.push(right.pop());
+            } else if (input.equals("B")) {
+                if (left.size() == 0) {
+                    continue;
                 }
-            } else if (input.length() == 3) {
-               left.push(input.charAt(2));
+                left.pop();
+            } else {
+                left.push(input.charAt(2));
             }
         }
-
-        while (!left.isEmpty()) {
-            right.push(left.pop());
+        
+        int size = right.size();
+        for (int i = 0; i < size; i++) {
+            left.push(right.pop());
         }
-
-        while (!right.isEmpty()) {
-            sb.append(right.pop());
+        
+        StringBuilder sb = new StringBuilder();
+        for (char i : left) {
+            sb.append(i);
         }
-        System.out.println(sb);
-
-
-
+        
+        System.out.print(sb);
     }
 }
