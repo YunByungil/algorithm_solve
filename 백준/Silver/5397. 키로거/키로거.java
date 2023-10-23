@@ -2,50 +2,51 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static Stack<Character> left;
-    public static Stack<Character> right;
-    public static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-         int n = Integer.parseInt(br.readLine());
-//        int n = 1;
-
-        for (int i = 0; i < n; i++) {
+        StringTokenizer st = null;
+        StringBuilder sb = new StringBuilder();
+        
+        int t = Integer.parseInt(br.readLine());
+        while (t-- > 0) {
+            String input = br.readLine();
+            
             Stack<Character> left = new Stack<>();
             Stack<Character> right = new Stack<>();
-            String str = br.readLine();
-
-            for (int j = 0; j < str.length(); j++) {
-                char input = str.charAt(j);
-
-                if (input == '<') {
-                    if (!left.isEmpty()) {
-                        right.push(left.pop());
+            
+            for (int i = 0; i < input.length(); i++) {
+                char inputChar = input.charAt(i);
+                if (inputChar == '>') {
+                    if (right.isEmpty()) {
+                        continue;
                     }
-                } else if (input == '>') {
-                    if (!right.isEmpty()) {
-                        left.push(right.pop());
+                    left.push(right.pop());
+                } else if (inputChar == '<') {
+                    if (left.isEmpty()) {
+                        continue;
                     }
-                } else if (input == '-') {
-                    if (!left.isEmpty()) {
-                        left.pop();
+                    right.push(left.pop());
+                } else if (inputChar == '-') {
+                    if (left.isEmpty()) {
+                        continue;
                     }
+                    left.pop();
                 } else {
-                    left.push(input);
+                    left.push(inputChar);
                 }
             }
-
-            while (!left.isEmpty()) {
-                right.push(left.pop());
+            
+            int size = right.size();
+            for (int i = 0; i < size; i++) {
+                left.push(right.pop());
             }
-
-            while (!right.isEmpty()) {
-                sb.append(right.pop());
+            
+            for (char i : left) {
+                sb.append(i);
             }
             sb.append("\n");
         }
-
+        
         System.out.println(sb);
-
     }
 }
