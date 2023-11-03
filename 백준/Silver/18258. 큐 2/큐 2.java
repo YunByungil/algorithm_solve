@@ -1,63 +1,50 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static int n; // 명령의 수
-    public static LinkedList<Integer> q = new LinkedList<>();
-    public static StringBuilder sb = new StringBuilder();
-   
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
+        StringTokenizer st = null;
+        StringBuilder sb = new StringBuilder();
+        int n = Integer.parseInt(br.readLine());
         
-        
+        Deque<Integer> q = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
-            
-            
             String input = br.readLine();
             
-            if (input.startsWith("push")) {
-                int num = Integer.parseInt(input.substring(5, input.length()));
-                
-                q.offer(num);
-            } else if (input.equals("pop")) {
-                if (!q.isEmpty()) {
-                    sb.append(q.poll()).append("\n");
-                    
+            if (input.equals("pop")) {
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    sb.append(-1).append("\n");
-                    
+                    sb.append(q.poll()).append("\n");
                 }
             } else if (input.equals("size")) {
                 sb.append(q.size()).append("\n");
-                
             } else if (input.equals("empty")) {
-                if (!q.isEmpty()) {
-                    sb.append(0).append("\n");
+                if (q.isEmpty()) {
+                    sb.append("1").append("\n");
                 } else {
-                    sb.append(1).append("\n");
+                    sb.append("0").append("\n");
                 }
             } else if (input.equals("front")) {
-                if (!q.isEmpty()) {
-                    int firstNum = q.pollFirst();
-                    sb.append(firstNum).append("\n");
-                    q.addFirst(firstNum);
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    sb.append(-1).append("\n");
+                    sb.append(q.peekFirst()).append("\n");
                 }
             } else if (input.equals("back")) {
-                if (!q.isEmpty()) {
-                    int lastNum = q.pollLast();
-                    sb.append(lastNum).append("\n");
-                    q.addLast(lastNum);
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    sb.append(-1).append("\n");
+                    sb.append(q.peekLast()).append("\n");
                 }
+            } else {
+                int num = Integer.parseInt(input.substring(5));
+                q.offer(num);
+                // sb.append(num).append("\n");
             }
         }
         
         System.out.println(sb);
-               
-       
     }
 }
