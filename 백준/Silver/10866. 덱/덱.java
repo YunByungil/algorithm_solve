@@ -2,63 +2,59 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n; // 명령의 수
-    public static LinkedList<Integer> q = new LinkedList<>();
-    
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
-        n = Integer.parseInt(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
         
+        int n = Integer.parseInt(br.readLine());
+        Deque<Integer> q = new ArrayDeque<>();
+        StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            String input = st.nextToken();
             
-            String str = br.readLine();
-            
-            
-            if (str.startsWith("push_front")) {
-                int num = Integer.parseInt(str.substring(11, str.length()));
-                q.offerFirst(num);
-            } else if (str.startsWith("push_back")) {
-                int num = Integer.parseInt(str.substring(10, str.length()));
+            if (input.equals("push_back")) {
+                int num = Integer.parseInt(st.nextToken());
                 q.offerLast(num);
-            } else if (str.equals("pop_front")) {
-                if (!q.isEmpty()) {
-                    System.out.println(q.pollFirst());
+            } else if (input.equals("push_front")) {
+                int num = Integer.parseInt(st.nextToken());
+                q.offerFirst(num);
+            } else if (input.equals("front")) {
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    System.out.println(-1);
+                    sb.append(q.peek()).append("\n");
                 }
-            } else if (str.equals("pop_back")) {
-                if (!q.isEmpty()) {
-                    
-                    System.out.println(q.pollLast());
-                    
+            } else if (input.equals("back")) {
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    System.out.println(-1);
+                    sb.append(q.peekLast()).append("\n");
                 }
-            } else if (str.equals("size")) {
-                System.out.println(q.size());
-            } else if (str.equals("empty")) {
-                if (!q.isEmpty()) {
-                    System.out.println(0);
+            } else if (input.equals("size")) {
+                sb.append(q.size()).append("\n");
+            } else if (input.equals("empty")) {
+                if (q.isEmpty()) {
+                    sb.append("1").append("\n");
                 } else {
-                    System.out.println(1);
+                    sb.append("0").append("\n");
                 }
-            } else if (str.equals("front")) {
-                if (!q.isEmpty()) {
-                    System.out.println(q.peekFirst());
+            } else if (input.equals("pop_front")) {
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    System.out.println(-1);
+                    sb.append(q.pollFirst()).append("\n");
                 }
-            } else if (str.equals("back")) {
-                if (!q.isEmpty()) {
-                    System.out.println(q.peekLast());
+            } else if (input.equals("pop_back")) {
+                if (q.isEmpty()) {
+                    sb.append("-1").append("\n");
                 } else {
-                    System.out.println(-1);
+                    sb.append(q.pollLast()).append("\n");
                 }
             }
         }
         
-        
-        
+        System.out.println(sb);
     }
 }
