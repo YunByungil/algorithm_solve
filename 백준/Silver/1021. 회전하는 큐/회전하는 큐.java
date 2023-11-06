@@ -1,71 +1,102 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static Deque<Integer> q = new LinkedList<>();
-    public static Deque<Integer> q2 = new LinkedList<>();
-    public static int n; // 큐의 크기 n
-    public static int m; // 뽑아내려고 하는 수의 개수 m
-    public static int location; // 뽑아내려고 하는 수의 위치가 순서대로 주어짐
-
+    public static Deque<Integer> q = new ArrayDeque<>();
+    public static Deque<Integer> q2 = new ArrayDeque<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
-        int answer = 0;
-
+        StringTokenizer st = null;
+        
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        
         for (int i = 1; i <= n; i++) {
             q.offer(i);
             q2.offer(i);
         }
 
         st = new StringTokenizer(br.readLine());
+        
+        int answer = 0;
+        
         for (int i = 0; i < m; i++) {
-            int findNum = Integer.parseInt(st.nextToken());
-            int leftResult = getLeftMin(findNum);
-            int rightResult = getRightMin(findNum);
-
-            if (leftResult <= rightResult) {
-                answer += leftResult;
+            int num = Integer.parseInt(st.nextToken());
+            int left = findFirst(num);
+            int right = findLast(num);
+            
+            if (left < right) {
+                answer += pollFront(num);
             } else {
-                answer += rightResult;
+                answer += pollLast(num);
             }
         }
         
         System.out.println(answer);
     }
-
-    public static int getLeftMin(int num) {
-        int c1 = 0;
+    
+    public static int findFirst(int num) {
+        int count = 0;
+        Deque<Integer> copyQ = new ArrayDeque<>(q);
         while (true) {
-
-            if (q.peek() == num) {
-                q.pop();
+            if (copyQ.peek().equals(num)) {
+                copyQ.poll();
                 break;
+            } else {
+                copyQ.offer(copyQ.pollFirst());
+                count++;
             }
-
-            q.offerLast(q.pollFirst()); // 왼쪽으로 이동
-            c1++;
         }
-
-        return c1;
+        
+        return count;
     }
-
-    public static int getRightMin(int num) {
-        int c1 = 0;
+    
+    public static int findLast(int num) {
+        int count = 0;
+        Deque<Integer> copyQ = new ArrayDeque<>(q);
         while (true) {
-
-            if (q2.peek() == num) {
-                q2.pop();
+            if (copyQ.peek().equals(num)) {
+                copyQ.poll();
                 break;
+            } else {
+                copyQ.offerFirst(copyQ.pollLast());
+                count++;
             }
-
-            q2.offerFirst(q2.pollLast()); // 왼쪽으로 이동
-            c1++;
         }
-
-        return c1;
+        
+        return count;
+    }
+    
+    public static int pollFront(int num) {
+        boolean b = true;
+        int count = 0;
+        while (b) {
+            if (q.peek().equals(num)) {
+                q.poll();
+                break;
+            } else {
+                q.offer(q.pollFirst());
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    public static int pollLast(int num) {
+        boolean b = true;
+        int count = 0;
+        while (b) {
+            if (q.peek().equals(num)) {
+                q.poll();
+                break;
+            } else {
+                q.offerFirst(q.pollLast());
+                count++;
+            }
+        }
+        
+        return count;
     }
 }
