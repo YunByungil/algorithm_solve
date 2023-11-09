@@ -7,21 +7,22 @@ public class Main {
         StringTokenizer st = null;
         
         int n = Integer.parseInt(br.readLine());
-        StringBuilder sb = new StringBuilder();
         int answer = 0;
-        
         for (int i = 0; i < n; i++) {
             Stack<Character> stack = new Stack<>();
-            String str = br.readLine();
-            
-            for (int j = 0; j < str.length(); j++) {
+            String input = br.readLine();
+
+            for (int j = 0; j < input.length(); j++) {
+                char c = input.charAt(j);
+                
                 if (stack.isEmpty()) {
-                    stack.push(str.charAt(j));
+                    stack.push(c);
                 } else {
-                    if (stack.peek().equals(str.charAt(j))) {
+                    char pk = stack.peek();
+                    if (pk == c) {
                         stack.pop();
                     } else {
-                        stack.push(str.charAt(j));
+                        stack.push(c);
                     }
                 }
             }
