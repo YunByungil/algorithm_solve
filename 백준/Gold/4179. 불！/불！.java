@@ -2,96 +2,111 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int r, c; // r: 미로 행의 개수, c: 열의 개수
-    public static int answer = 0;
+    public static int r, c;
+    public static int[] dx = {0, 0, 1, -1};
+    public static int[] dy = {-1, 1, 0, 0};
+    public static int[][] distance;
     public static String[][] arr;
-    public static boolean[][] visit;
-    public static int[][] result;
-    public static int[] row = {-1, 1, 0, 0};
-    public static int[] col = {0, 0, 1, -1};
     public static Queue<int[]> q = new LinkedList<>();
-
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = null;
+        
+        st = new StringTokenizer(br.readLine());
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
+        distance = new int[r][c];
         arr = new String[r][c];
-        visit = new boolean[r][c];
-        result = new int[r][c];
-
-
-        for (int i = 0; i < r; i++) {
-            String str = br.readLine();
-            for (int j = 0; j < str.length(); j++) {
-                arr[i][j] = String.valueOf(str.charAt(j));
-                if (arr[i][j].equals("F")) {
+        
+        for (int i = 0; i < r; i ++) {
+            String input = br.readLine();
+            for (int j = 0; j < input.length(); j++) {
+                if (input.charAt(j) == 'F') {
                     q.offer(new int[]{i, j});
-                    visit[i][j] = true;
                 }
+                
+                arr[i][j] = "" + input.charAt(j);
             }
         }
-        for (int i = 0; i < r; i++) {
+        
+        for (int i = 0; i < r; i ++) {
             for (int j = 0; j < c; j++) {
                 if (arr[i][j].equals("J")) {
                     q.offer(new int[]{i, j});
-                    result[i][j] = 1;
-                    visit[i][j] = true;
                 }
+                
             }
         }
 
-
-        if (bfs()) {
-            System.out.println(answer);
-        } else {
-            System.out.println("IMPOSSIBLE");
-        }
-
+        bfs();
         
-
-    }
-
-    public static boolean bfs() {
-        while (!q.isEmpty()) {
-            int[] nowLocation = q.poll();
-            int nowY = nowLocation[0];
-            int nowX = nowLocation[1];
-
-            for (int i = 0; i < 4; i++) {
-                int newY = nowY + row[i];
-                int newX = nowX + col[i];
-                if (arr[nowY][nowX].equals("J")) {
-                    if (newY < 0 || newY >= r || newX < 0 || newX >= c) {
-                        answer = result[nowY][nowX];
-                        return true;
+//         for (int i = 0; i < r; i++) {
+//             for (int j = 0; j < c; j++) {
+//                 System.out.print(arr[i][j]);
+//             }
+//             System.out.println();
+//         }
+        
+//         for (int i = 0; i < r; i++) {
+//             for (int j = 0; j < c; j++) {
+//                 System.out.print(distance[i][j]);
+//             }
+//             System.out.println();
+//         }
+        
+        int answer = Integer.MAX_VALUE;
+        for (int i = 0; i < r; i++) {
+            if (i == 0 || i == r - 1) {
+                for (int j = 0; j < c; j++) {
+                    if (arr[i][j].equals("J")) {
+                        answer = Math.min(answer, distance[i][j]);
                     }
                 }
-
-
-                if (newY < 0 || newY >= r || newX < 0 || newX >= c) {
+            } else {
+                if (arr[i][0].equals("J")) {
+                    answer = Math.min(answer, distance[i][0]);
+                } else if (arr[i][c - 1].equals("J")) {
+                    answer = Math.min(answer, distance[i][c - 1]);
+                }
+            } 
+        }
+        
+        if (answer == Integer.MAX_VALUE) {
+            System.out.println("IMPOSSIBLE");
+        } else {
+            System.out.println(answer + 1);
+        }
+        
+        // while (!q.isEmpty()) {
+        //     int[] nowLocation = q.poll();
+        //     System.out.println("x = " + nowLocation[0]);
+        //     System.out.println("y = " + nowLocation[1]);
+        // }
+        
+    }
+    
+    public static void bfs() {
+        while (!q.isEmpty()) {
+            int[] nowLocation = q.poll();
+            int nowX = nowLocation[0];
+            int nowY = nowLocation[1];
+            
+            for (int i = 0; i < 4; i++) {
+                int newX = nowX + dx[i];
+                int newY = nowY + dy[i];
+                String str = arr[nowX][nowY];
+                
+                if (newX < 0 || newX >= r || newY < 0 || newY >= c) {
                     continue;
                 }
-
-                if (!visit[newY][newX] && arr[newY][newX].equals(".")
-                        && arr[nowY][nowX].equals("F")) {
-                    q.offer(new int[]{newY, newX});
-                    visit[newY][newX] = true;
-                    arr[newY][newX] = "F";
-                }
-
-                if (!visit[newY][newX] && arr[newY][newX].equals(".")
-                        && arr[nowY][nowX].equals("J")) {
-                    q.offer(new int[]{newY, newX});
-                    visit[newY][newX] = true;
-                    arr[newY][newX] = "J";
-                    result[newY][newX] = result[nowY][nowX] + 1;
-                    answer = result[newY][newX];
+                
+                if (arr[newX][newY].equals(".")) {
+                    q.offer(new int[]{newX, newY});
+                    arr[newX][newY] = str;
+                    distance[newX][newY] = distance[nowX][nowY] + 1;
                 }
             }
         }
-
-
-        return false;
     }
 }
