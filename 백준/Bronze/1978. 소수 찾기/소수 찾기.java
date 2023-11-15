@@ -8,29 +8,30 @@ public class Main {
         StringTokenizer st = null;
         
         int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+        int answer = 0;
         
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        
-        
-        int answer = 0;
-        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(st.nextToken());
             int count = 0;
-            for (int j = 1; j <= arr[i]; j++) {
-                if (arr[i] % j == 0) {
-                    count++;
-                }
+            boolean isPrime = false;
+            
+            if (num == 1) {
+                continue;
             }
             
-            if (count == 2) {
+            for (int j = 2; j <= num; j++) {
+                if (num % j == 0) {
+                    count++;
+                }
+                
+            }
+            
+            if (count == 1) {
                 answer++;
             }
-        }
-        System.out.println(answer);
+        }        
         
+        System.out.println(answer);
     }
-    
 }
