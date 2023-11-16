@@ -2,72 +2,72 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int t; // 테스트 케이스 개수
-    public static int m, n, k; // 가로 길이, 세로 길이, 배추가 심어져 있는 위치의 개수
-    public static int x, y; // 배추의 위치 x: 가로, y: 세로
-    public static int answer; // 지렁이 마리 수
-    public static int[] col = {0, 0, 1, -1};
-    public static int[] row = {1, -1, 0, 0};
-    public static int[][] arr; // 배추밭
-    public static boolean[][] visit; // 방문 여부
+    public static int t, n, m, k;
+    public static int answer = 0;
+    public static int[] dx = {0, 0, 1, -1};
+    public static int[] dy = {-1, 1, 0, 0};
+    public static boolean[][] visit;
+    public static int[][] arr;
     public static Queue<int[]> q = new LinkedList<>();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    
-        t = Integer.parseInt(br.readLine());
+        StringTokenizer st = null;
         
-        for (int test = 0; test < t; test++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            answer = 0;
-            m = Integer.parseInt(st.nextToken());
+        t = Integer.parseInt(br.readLine()); // 테스트 케이스
+        
+        
+        
+        for (int time = 0; time < t; time++) {
+            st = new StringTokenizer(br.readLine());
             n = Integer.parseInt(st.nextToken());
+            m = Integer.parseInt(st.nextToken());
             k = Integer.parseInt(st.nextToken());
-            
+            answer = 0;
             arr = new int[n][m];
             visit = new boolean[n][m];
             
             for (int i = 0; i < k; i++) {
                 st = new StringTokenizer(br.readLine());
-                x = Integer.parseInt(st.nextToken());
-                y = Integer.parseInt(st.nextToken());
-                
-                arr[y][x] = 1;
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                arr[x][y] = 1;
             }
             
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
-                    if (arr[i][j] == 1 && !visit[i][j]) {
+                    if (!visit[i][j] && arr[i][j] == 1) {
+                        answer++;
                         bfs(i, j);
                     }
                 }
             }
+            
             System.out.println(answer);
         }
+        
     }
     
-    public static void bfs(int y, int x) {
-        answer++;
-        q.offer(new int[]{y, x});
-        visit[y][x] = true;
+    public static void bfs(int x, int y) {
+        visit[x][y] = true;
+        q.offer(new int[]{x, y});
         
         while (!q.isEmpty()) {
             int[] nowLocation = q.poll();
-            int nowY = nowLocation[0];
-            int nowX = nowLocation[1];
+            int nowX = nowLocation[0];
+            int nowY = nowLocation[1];
             
             for (int i = 0; i < 4; i++) {
-                int newY = nowY + row[i];
-                int newX = nowX + col[i];
+                int newX = nowX + dx[i];
+                int newY = nowY + dy[i];
                 
-                if (newY < 0 || newY >= n || newX < 0 || newX >= m) {
+                if (newX < 0 || newX >= n || newY < 0 || newY >= m) {
                     continue;
                 }
                 
-                if (!visit[newY][newX] && arr[newY][newX] == 1) {
-                    q.offer(new int[]{newY, newX});
-                    visit[newY][newX] = true;
-                    
+                if (!visit[newX][newY] && arr[newX][newY] == 1) {
+                    visit[newX][newY] = true;
+                    q.offer(new int[]{newX, newY});
                 }
             }
         }
