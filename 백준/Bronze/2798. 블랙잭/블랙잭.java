@@ -1,58 +1,35 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static int n, m;
-    public static int[] arr;
-
-    public static int[] num;
-    public static boolean[] visit;
-
-    public static int max = 0;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
-        arr = new int[n];
-        visit = new boolean[n];
-        num = new int[3];
-
+        StringTokenizer st = null;
+        
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n];
+        
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        combination(0, 0);
-
-        System.out.println(max);
-    }
-
-    public static void combination(int start, int depth) {
-        if (depth == 3) {
-            int result = 0;
-            for (int i = 0; i < num.length; i++) {
-                result += num[i];
-            }
-            if (result <= m) {
-                max = Math.max(max, result);
-            }
-            return;
-        }
-
-        for (int i = start; i < arr.length; i++) {
-            if (!visit[i]) {
-                visit[i] = true;
-                num[depth] = arr[i];
-                combination(i, depth + 1);
-                visit[i] = false;
+        
+        int answer = 0;
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    int result = arr[i] + arr[j] + arr[k];
+                    if (result <= m) {
+                        if (result >= answer) {
+                            answer = result;
+                        }
+                    }
+                }
             }
         }
+        System.out.println(answer);
+        
     }
 }
