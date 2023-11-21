@@ -2,104 +2,61 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int t; // 테스트 케이스 개수
-    public static int l; // 체스판의 한 변의 길이, 체스판의 크기는 l * l
-    public static int x, y; // 나이트의 좌표
-    public static int ansX, ansY;
-    
-    public static int[][] arr; // 체스판
-    public static int[][] result; // 이동거리
-    public static boolean[][] visit; // 방문 여부
-   
-    public static int[] upCol = {2, 1, -1, -2};
-    public static int[] upRow = {-1, -2, -2, -1};
-    
-    public static int[] downCol = {2, 1, -1, -2};
-    public static int[] downRow = {1, 2, 2, 1};
-   
+    public static int t, l, answer;
+    public static int[] dx = {1, 1, -1, -1, 2, 2, -2, -2};
+    public static int[] dy = {2, -2, 2, -2, 1, -1, 1, -1};
+    public static boolean[][] visit;
+    public static int[][] arr;
     public static Queue<int[]> q = new LinkedList<>();
     
-    
-        
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
         
         t = Integer.parseInt(br.readLine());
-        
-        
-        for (int test = 0; test < t; test++) {
+        for (int count = 0; count < t; count++) {
             l = Integer.parseInt(br.readLine());
             arr = new int[l][l];
-            result = new int[l][l];
             visit = new boolean[l][l];
             
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            y = Integer.parseInt(st.nextToken());
-            x = Integer.parseInt(st.nextToken());
-            bfs(y, x);
             st = new StringTokenizer(br.readLine());
-            ansY = Integer.parseInt(st.nextToken());
-            ansX = Integer.parseInt(st.nextToken());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
             
-            System.out.println(result[ansY][ansX]);
+            bfs(x, y);
             
+            st = new StringTokenizer(br.readLine());
+            int resultX = Integer.parseInt(st.nextToken());
+            int resultY = Integer.parseInt(st.nextToken());
+            
+            System.out.println(arr[resultX][resultY]);
         }
-        
     }
     
-    public static void bfs(int y, int x) {
-        q.offer(new int[]{y, x});
-        visit[y][x] = true;
+    public static void bfs(int x, int y) {
+        q.offer(new int[]{x, y});
+        visit[x][y] = true;
         
         while (!q.isEmpty()) {
             int[] nowLocation = q.poll();
-            int nowY = nowLocation[0];
-            int nowX = nowLocation[1];
-            for (int i = 0; i < 4; i++) {
-                
-                int upY = nowY + upRow[i];
-                int upX = nowX + upCol[i];
-                if (upY < 0 || upY >= l || upX < 0 || upX >= l) {
-                    continue;
-                }
-                
-                if (!visit[upY][upX]) {
-                    q.offer(new int[]{upY, upX});
-                    visit[upY][upX] = true;
-                    result[upY][upX] = result[nowY][nowX] + 1;
-                }
-                
-            }
+            int nowX = nowLocation[0];
+            int nowY = nowLocation[1];
             
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 8; i++) {
+                int newX = nowX + dx[i];
+                int newY = nowY + dy[i];
                 
-                int downY = nowY + downRow[i];
-                int downX = nowX + downCol[i];
-                
-                if (downY < 0 || downY >= l || downX < 0 || downX >= l) {
+                if (newX < 0 || newX >= l || newY < 0 || newY >= l) {
                     continue;
                 }
                 
-                if (!visit[downY][downX]) {
-                    q.offer(new int[]{downY, downX});
-                    visit[downY][downX] = true;
-                    result[downY][downX] = result[nowY][nowX] + 1;
+                if(!visit[newX][newY]) {
+                    q.offer(new int[]{newX, newY});
+                    visit[newX][newY] = true;
+                    arr[newX][newY] = arr[nowX][nowY] + 1;
                 }
             }
         }
         
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
