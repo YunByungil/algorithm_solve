@@ -1,32 +1,34 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
+        
         int n = Integer.parseInt(br.readLine());
-        int[] score = new int[n];
-        float[] result = new float[n];
-        float sum = 0f;
-        float max = 0f;
-        StringTokenizer st;
+        int[] arr = new int[n];
+        double[] result = new double[n];
+        
         st = new StringTokenizer(br.readLine());
-
+        double max = 0;
         for (int i = 0; i < n; i++) {
-             score[i] = Integer.parseInt(st.nextToken());
-             max = Math.max(max, score[i]);
+            int score = Integer.parseInt(st.nextToken());
+            arr[i] = score;
+            max = Math.max(max, score);
         }
-
+        
         for (int i = 0; i < n; i++) {
-            result[i] = (score[i] / max) * 100;
+            result[i] = (arr[i] / max) * 100;
         }
-
-        for (float v : result) {
-            sum += v;
+        
+        double answer = 0;
+        for (double i : result) {
+            answer += i;
         }
-        float avg = sum / n;
-        System.out.println(avg);
+        
+        System.out.println(answer / n);
+        
     }
 }
