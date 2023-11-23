@@ -2,111 +2,100 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int r, c;
-    public static int[] dx = {0, 0, 1, -1};
+    public static int n, m;
+    public static int[] dx = {0, 0, -1, 1};
     public static int[] dy = {-1, 1, 0, 0};
-    public static int[][] distance;
-    public static String[][] arr;
-    public static Queue<int[]> q = new LinkedList<>();
+    public static boolean[][] visit;
+    public static char[][] arr;
+    public static int[][] dis1;
+    public static int[][] dis2;
+    public static Queue<int[]> q1 = new LinkedList<>();
+    public static Queue<int[]> q2 = new LinkedList<>();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
         
         st = new StringTokenizer(br.readLine());
-        r = Integer.parseInt(st.nextToken());
-        c = Integer.parseInt(st.nextToken());
-        distance = new int[r][c];
-        arr = new String[r][c];
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
         
-        for (int i = 0; i < r; i ++) {
+        arr = new char[n][m];
+        visit = new boolean[n][m];
+        dis1 = new int[n][m];
+        dis2 = new int[n][m];
+        
+        for (int i = 0; i < n; i++) {
             String input = br.readLine();
-            for (int j = 0; j < input.length(); j++) {
-                if (input.charAt(j) == 'F') {
-                    q.offer(new int[]{i, j});
+            for (int j = 0; j < m; j++) {
+                arr[i][j] = input.charAt(j);
+                dis1[i][j] = -1;
+                dis2[i][j] = -1;
+                if (arr[i][j] == 'F') {
+                    q1.offer(new int[]{i, j});
+                    dis1[i][j] = 0;
                 }
                 
-                arr[i][j] = "" + input.charAt(j);
+                if (arr[i][j] == 'J') {
+                    q2.offer(new int[]{i, j});
+                    dis2[i][j] = 0;
+                }
             }
         }
         
-        for (int i = 0; i < r; i ++) {
-            for (int j = 0; j < c; j++) {
-                if (arr[i][j].equals("J")) {
-                    q.offer(new int[]{i, j});
-                }
-                
-            }
-        }
-
-        bfs();
-        
-//         for (int i = 0; i < r; i++) {
-//             for (int j = 0; j < c; j++) {
-//                 System.out.print(arr[i][j]);
-//             }
-//             System.out.println();
-//         }
-        
-//         for (int i = 0; i < r; i++) {
-//             for (int j = 0; j < c; j++) {
-//                 System.out.print(distance[i][j]);
-//             }
-//             System.out.println();
-//         }
-        
-        int answer = Integer.MAX_VALUE;
-        for (int i = 0; i < r; i++) {
-            if (i == 0 || i == r - 1) {
-                for (int j = 0; j < c; j++) {
-                    if (arr[i][j].equals("J")) {
-                        answer = Math.min(answer, distance[i][j]);
-                    }
-                }
-            } else {
-                if (arr[i][0].equals("J")) {
-                    answer = Math.min(answer, distance[i][0]);
-                } else if (arr[i][c - 1].equals("J")) {
-                    answer = Math.min(answer, distance[i][c - 1]);
-                }
-            } 
-        }
-        
-        if (answer == Integer.MAX_VALUE) {
-            System.out.println("IMPOSSIBLE");
-        } else {
-            System.out.println(answer + 1);
-        }
-        
-        // while (!q.isEmpty()) {
-        //     int[] nowLocation = q.poll();
-        //     System.out.println("x = " + nowLocation[0]);
-        //     System.out.println("y = " + nowLocation[1]);
-        // }
-        
-    }
-    
-    public static void bfs() {
-        while (!q.isEmpty()) {
-            int[] nowLocation = q.poll();
+        // 불에 대한 BFS
+        while (!q1.isEmpty()) {
+            int[] nowLocation = q1.poll();
             int nowX = nowLocation[0];
             int nowY = nowLocation[1];
             
             for (int i = 0; i < 4; i++) {
                 int newX = nowX + dx[i];
                 int newY = nowY + dy[i];
-                String str = arr[nowX][nowY];
                 
-                if (newX < 0 || newX >= r || newY < 0 || newY >= c) {
+                if (newX < 0 || newX >= n || newY < 0 || newY >= m) {
                     continue;
                 }
                 
-                if (arr[newX][newY].equals(".")) {
-                    q.offer(new int[]{newX, newY});
-                    arr[newX][newY] = str;
-                    distance[newX][newY] = distance[nowX][nowY] + 1;
+                if (dis1[newX][newY] >= 0 || arr[newX][newY] == '#') {
+                    continue;
                 }
+                
+                dis1[newX][newY] = dis1[nowX][nowY] + 1;
+                q1.offer(new int[]{newX, newY});
             }
         }
+        
+        // 지훈이에 대한 BFS
+        while (!q2.isEmpty()) {
+            int[] nowLocation = q2.poll();
+            int nowX = nowLocation[0];
+            int nowY = nowLocation[1];
+            
+            for (int i = 0; i < 4; i++) {
+                int newX = nowX + dx[i];
+                int newY = nowY + dy[i];
+                
+                if (newX < 0 || newX >= n || newY < 0 || newY >= m) {
+                    System.out.println(dis2[nowX][nowY] + 1);
+                    return;
+                }
+                
+                if (dis2[newX][newY] >= 0 || arr[newX][newY] == '#') {
+                    continue;
+                }
+                
+                if (dis1[newX][newY] != -1 && dis1[newX][newY] <= dis2[nowX][nowY] + 1) {
+                    continue;
+                }
+                
+                q2.offer(new int[]{newX, newY});
+                dis2[newX][newY] = dis2[nowX][nowY] + 1;
+            }
+        }
+        
+        System.out.println("IMPOSSIBLE");
+        
+        
     }
 }
