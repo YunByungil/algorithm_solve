@@ -2,6 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
@@ -10,20 +11,14 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
         
-        int num = 1;
-        for (int i = 1; i <= n; i++) {
-            num *= i;
-        }
-        int num2 = 1;
-        int num3 = 1;
-        for (int i = 1; i <= k; i++) {
-            num2 *= i;
-        }
-        for (int i = 1; i <= n - k; i++) {
-            num3 *= i;
+        System.out.println(factorial(n) / (factorial(n - k) * factorial(k)));
+    }
+    
+    public static int factorial(int n) {
+        if (n == 0) {
+            return 1;
         }
         
-        int answer = num / (num2 * num3);
-        System.out.println(answer);
+        return n * factorial(n - 1);
     }
 }
