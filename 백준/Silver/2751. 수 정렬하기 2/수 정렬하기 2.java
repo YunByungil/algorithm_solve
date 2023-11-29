@@ -1,27 +1,39 @@
-// "static void main" must be defined in a public class.
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static int n;
-    public static int[] arr;
-    public static StringBuilder sb = new StringBuilder();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
+        StringTokenizer st = null;
         
-        arr = new int[2000001];
+        StringBuilder sb = new StringBuilder();
+        
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n];
+        int[] answer = new int[2_000_001];
+        
         for (int i = 0; i < n; i++) {
-            arr[Integer.parseInt(br.readLine()) + 1000000]++;
+            arr[i] = Integer.parseInt(br.readLine());
         }
         
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] > 0) {
-                sb.append(i - 1000000).append("\n");
+        for (int i = 0; i < n; i++) {
+                int num = arr[i];
+                // System.out.println(num);
+                answer[num + 1_000_000]++;
+        }
+        
+        for (int i = 0; i < answer.length; i++) {
+            if (answer[i] == 0) {
+                continue;
+            } else {
+                while (answer[i]-- > 0) {
+                    // System.out.println(i - 1_000_000);
+                    sb.append(i - 1_000_000).append("\n");
+                }
             }
         }
-        
         System.out.println(sb);
+        
     }
 }
