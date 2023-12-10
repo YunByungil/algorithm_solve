@@ -2,29 +2,36 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    // public static long a, b, c;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = null;
         
-        long a = Long.parseLong(st.nextToken());
-        long b = Long.parseLong(st.nextToken());
-        long c = Long.parseLong(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        long a = Integer.parseInt(st.nextToken());
+        long b = Integer.parseInt(st.nextToken());
+        long c = Integer.parseInt(st.nextToken());
         
-        System.out.println(dfs(a, b, c));
+        long answer = pow(a, b, c);
+        
+        
+        System.out.println(answer);
     }
     
-    public static long dfs(long a, long b, long c) {
+    public static long pow(long a, long b, long c) {
         if (b == 1) {
             return a % c;
         }
         
-        long val = dfs(a, b / 2, c);
-        val = val * val % c;
+        long value = pow(a, b / 2, c);
+        value = value * value % c;
         
         if (b % 2 == 0) {
-            return val;
+            return value;
         }
-        return val * a % c;
+        
+        return value * a % c;
     }
+    
 }
