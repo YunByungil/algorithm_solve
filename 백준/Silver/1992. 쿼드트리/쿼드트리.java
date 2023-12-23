@@ -1,81 +1,55 @@
-// "static void main" must be defined in a public class.
 import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n; // 영상의 크기
+    public static int n, black, white;
     public static int[][] arr;
-    public static int zero; // 흰 점
-    public static int one; // 검은 점
-    public static StringBuilder sb = new StringBuilder();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
+
         n = Integer.parseInt(br.readLine());
-        
         arr = new int[n][n];
         
         for (int i = 0; i < n; i++) {
             String str = br.readLine();
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < str.length(); j++) {
                 arr[i][j] = str.charAt(j) - '0';
             }
         }
         
-        // for (int i = 0; i < n; i++) {
-        //     for (int j = 0; j < n; j++) {
-        //         System.out.print(arr[i][j] + " ");
-        //     }
-        //     System.out.println();
-        // }
-        
-        dfs(0, 0, n);
-        
-    }
-
-    public static void dfs(int y, int x, int n) {
-        
-        zero = 0;
-        one = 0;
-        
-        if (check(y, x, n)) {
-            
-            if (arr[y][x] == 0) {
-                zero++;
-            } else {
-                one++;
-            }
-            if (one > 0) {
-                
-                System.out.print("1");
-            }
-            if (zero > 0) {
-                System.out.print("0");
-            }
-            return;
-        }
-        int half = n / 2;
-        System.out.print("(");
-        dfs(y, x, half);
-        dfs(y, x + half, half);
-        dfs(y + half, x, half);
-        dfs(y + half, x + half, half);
-        System.out.print(")");
-        
+        dfs(n, 0, 0);
         
     }
     
-    public static boolean check(int y, int x, int size) {
-        int color = arr[y][x];
+    public static void dfs(int n, int x, int y) {
+        if (check(n, x, y)) {
+            System.out.print(arr[x][y]);
+            return;
+        }
         
-        for (int i = y; i < y + size; i++) {
-            for (int j = x; j < x + size; j++) {
+        int size = n / 2;
+        System.out.print("(");
+        dfs(size, x, y);
+        dfs(size, x, y + size);
+        
+        dfs(size, x + size, y);
+        dfs(size, x + size, y + size);
+        System.out.print(")");
+    }
+    
+    public static boolean check(int size, int x, int y) {
+        int color = arr[x][y];
+        
+        for (int i = x; i < x + size; i++) {
+            for (int j = y; j < y + size; j++) {
                 if (arr[i][j] != color) {
                     return false;
                 }
             }
         }
+        
         return true;
     }
-    
 }
