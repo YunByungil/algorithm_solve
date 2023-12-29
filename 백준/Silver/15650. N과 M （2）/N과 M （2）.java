@@ -1,17 +1,16 @@
-// "static void main" must be defined in a public class.
 import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n, m; // 1부터 n까지 자연수 중 중복 없이 m개를 고른 수열
+    public static int n, m;
     public static int[] arr;
     public static boolean[] visit;
-    public static StringBuilder sb = new StringBuilder();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
+        StringTokenizer st = null;
+
+        st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         
@@ -19,15 +18,14 @@ public class Main {
         visit = new boolean[n];
         
         dfs(0, 0);
-        System.out.println(sb);
     }
     
     public static void dfs(int depth, int start) {
         if (depth == m) {
             for (int i = 0; i < m; i++) {
-                sb.append(arr[i]).append(" ");
+                System.out.print(arr[i] + " ");
             }
-            sb.append("\n");
+            System.out.println();
             return;
         }
         
@@ -35,7 +33,7 @@ public class Main {
             if (!visit[i]) {
                 visit[i] = true;
                 arr[depth] = i + 1;
-                dfs(depth + 1, i);
+                dfs(depth + 1, i + 1);
                 visit[i] = false;
             }
         }
