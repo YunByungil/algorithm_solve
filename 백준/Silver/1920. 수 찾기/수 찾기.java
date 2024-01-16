@@ -1,53 +1,54 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static StringBuilder sb = new StringBuilder();
-
+    public static int l, c;
+    public static String[] arr, answer;
+    public static boolean[] visit;
+    
     public static void main(String[] args) throws IOException {
-        // 1. input
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine()); // n개의 정수
+        StringTokenizer st = null;
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int[] a = new int[n]; // n개의 정수를 담는 배열
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n]; // 내가 가진 배열
+
+        st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        Arrays.sort(a);
+        Arrays.sort(arr);
+
+        int m = Integer.parseInt(br.readLine()); // 찾아야 되는 숫자 개수
+        int answer = 0; // 결과 개수
 
         st = new StringTokenizer(br.readLine());
-        int m = Integer.parseInt(st.nextToken()); // m개의 정수
-
-        st = new StringTokenizer(br.readLine());
-
-        // 2. m개의 정수가 n안에 존재하는지 확인한다
-        for (int i = 0 ; i < m; i++) {
-            int num = Integer.parseInt(st.nextToken());
-            sb.append(binarySearch(a, 0, n - 1, num)).append("\n");
+        for (int i = 0; i < m; i++) {
+            int target = Integer.parseInt(st.nextToken());
+            int result = binarySearch(arr, target);
+            System.out.println(result);
         }
 
-        System.out.println(sb);
     }
 
-    public static int binarySearch(int[] a, int l, int r, int num) {
-        int count = 0;
-        while (l <= r) {
-            int mid = (l + r) / 2;
+    public static int binarySearch(int[] arr, int target) {
+        int start = 0;
+        int end = arr.length;
 
-            if (a[mid] == num) {
-                count = 1;
-                break;
-            } else if (a[mid] > num) {
-                r = mid - 1;
-            } else if (a[mid] < num) {
-                l = mid + 1;
+        while (start < end) {
+            int mid = (start + end) / 2;
+
+            if (arr[mid] == target) {
+                return 1;
+            } else if (arr[mid] > target) {
+                end = mid;
+            } else if (arr[mid] < target) {
+                start = mid + 1;
             }
         }
 
-        return count;
+        return 0;
+        
+        
     }
-}
+}    
