@@ -2,23 +2,25 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n, m;
-    public static int[] arr;
+    public static int n, m; // 계란의 수
+    public static int[] arr; // 계란 내구도, 무게
     public static boolean[] visit;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
-
+        
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         
-        arr = new int[n];
+        arr = new int[m];
         visit = new boolean[n];
         
         dfs(0);
+        
     }
+    
     
     public static void dfs(int depth) {
         if (depth == m) {
@@ -38,4 +40,4 @@ public class Main {
             }
         }
     }
-}
+}    
