@@ -3,42 +3,37 @@ import java.io.*;
 
 public class Main {
     public static int n, m;
-    public static int[] dx = {0, 0, 1, -1};
-    public static int[] dy = {-1, 1, 0, 0};
+    public static int[][] arr, answer;
     public static boolean[][] visit;
-    public static int[][] arr;
-    public static int[][] distance;
+    public static int[] dx = {0, 0, -1, 1};
+    public static int[] dy = {-1, 1, 0, 0};
     public static Queue<int[]> q = new LinkedList<>();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
-    
+        
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         
         arr = new int[n][m];
-        distance = new int[n][m];
+        answer = new int[n][m];
         visit = new boolean[n][m];
-        
         for (int i = 0; i < n; i++) {
             String input = br.readLine();
             for (int j = 0; j < input.length(); j++) {
-                int num = input.charAt(j) - '0';
-                arr[i][j] = num;
+                arr[i][j] = input.charAt(j) - '0';
             }
         }
         
         bfs(0, 0);
-        
-        System.out.println(distance[n - 1][m - 1] + 1);
-        
+        System.out.println(answer[n - 1][m - 1] + 1);
     }
     
     public static void bfs(int x, int y) {
-        visit[x][y] = true;
         q.offer(new int[]{x, y});
+        visit[x][y] = true;
         
         while (!q.isEmpty()) {
             int[] nowLocation = q.poll();
@@ -53,12 +48,14 @@ public class Main {
                     continue;
                 }
                 
-                if (arr[newX][newY] == 1 && !visit[newX][newY]) {
+                if (!visit[newX][newY] && arr[newX][newY] == 1) {
+                    answer[newX][newY] = answer[nowX][nowY] + 1;
                     visit[newX][newY] = true;
                     q.offer(new int[]{newX, newY});
-                    distance[newX][newY] = distance[nowX][nowY] + 1;
                 }
             }
         }
     }
 }
+    
+    
