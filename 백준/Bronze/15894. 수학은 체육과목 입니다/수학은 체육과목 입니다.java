@@ -2,13 +2,15 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
         
         long n = Long.parseLong(br.readLine());
-        long answer = n * 4;
-        System.out.println(answer);
+        System.out.print(4 * n);
         
     }
 }
+    
+    
