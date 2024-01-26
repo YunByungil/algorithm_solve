@@ -1,7 +1,8 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
@@ -9,7 +10,7 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
-
+        
         int[] arr = new int[n + 1];
         for (int i = 2; i <= n; i++) {
             arr[i] = i;
@@ -18,15 +19,16 @@ public class Main {
         int count = 0;
         for (int i = 2; i <= n; i++) {
             for (int j = i; j <= n; j += i) {
-                if (arr[j] == 0) {
-                    continue;
-                }
-                arr[j] = 0;
+                if (arr[j] <= 0) continue;
                 count++;
-                if (k == count) {
+                arr[j] = 0;
+                if (count == k) {
                     System.out.println(j);
+                    return;
                 }
             }
         }
     }
 }
+    
+    
