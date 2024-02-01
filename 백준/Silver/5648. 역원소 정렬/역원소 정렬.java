@@ -1,31 +1,33 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
+    public static int n;
     
     public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = null;
+        StringBuilder sb = null;
+        
+        // n = Integer.praseInt(br.readLine());
         Scanner sc = new Scanner(System.in);
-        
-        int n = sc.nextInt();
-        String[] str = new String[n];
-        Long[] arr = new Long[n];
+        n = sc.nextInt();
+        long[] arr = new long[n];
         for (int i = 0; i < n; i++) {
-            str[i] = "" + sc.nextLong();
-        }
-        
-        for (int i = 0; i < n; i++) {
-            String num = str[i];
-            str[i] = "";
-            for (int j = num.length() - 1; j >= 0; j--) {
-                str[i] += num.charAt(j) - '0';
-            }
-            arr[i] = Long.parseLong(str[i]);
+            sb = new StringBuilder();
+            long num = sc.nextLong();
+            sb.append(num);
+            sb.reverse();
+            
+            arr[i] = Long.parseLong(sb.toString());
         }
         
         Arrays.sort(arr);
         
-        for (Long i : arr) {
+        for (long i : arr) {
             System.out.println(i);
         }
-    }    
+    }
 }
+    
+    
