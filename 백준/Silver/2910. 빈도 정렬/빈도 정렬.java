@@ -3,29 +3,28 @@ import java.io.*;
 
 public class Main {
     public static int n, c;
-    public static List<Integer> list;
-    public static Map<Integer, Integer>map = new LinkedHashMap<>();
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st = null;
         
+        st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
         
-        
+        Map<Integer, Integer> map = new LinkedHashMap<>();
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             int num = Integer.parseInt(st.nextToken());
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         
-        list = new ArrayList<>(map.keySet());
-        
-        Collections.sort(list, new Comparator<>() {
+        List<Integer> list = new ArrayList<>(map.keySet());
+
+        Collections.sort(list, new Comparator<Integer>() {
            @Override
-            public int compare(Integer o1, Integer o2) {
-                return map.get(o2).compareTo(map.get(o1));
+            public int compare(Integer a, Integer b) {
+                return Integer.compare(map.get(b), map.get(a));
             }
         });
         
@@ -34,5 +33,9 @@ public class Main {
                 System.out.print(l + " ");
             }
         }
+        
+        
     }
 }
+    
+    
