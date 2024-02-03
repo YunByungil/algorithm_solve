@@ -1,28 +1,56 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.io.*;
 
 public class Main {
+    public static int n;
+    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        List<String> notGroupWords = new ArrayList<>();
-        String str = "";
-        for (int k = 0; k < n; k++) {
-            str = br.readLine();
-            notGroupWords.add(str);
-            for (int i = 1; i < str.length(); i++) {
-                if (str.charAt(i - 1) != str.charAt(i)) {
-                    for (int j = i + 1; j < str.length(); j++) {
-                        if (str.charAt(i - 1) == str.charAt(j)) {
-                            notGroupWords.remove(str);
-                        }
-                    }
-                }
-            }
-        }
-        System.out.println(notGroupWords.size());
-    }
+        
+        StringTokenizer st = null;
+        
+        int count = 0;
+		n = Integer.parseInt(br.readLine());
+ 
+		for (int i = 0; i < n; i++) {
+			if (check() == true) {
+				count++;
+			}
+		}
+		System.out.println(count);
+	}
+ 
+	public static boolean check() throws IOException {
+		boolean[] check = new boolean[26];
+		int prev = 0;
+		String str = br.readLine();
+		
+		for(int i = 0; i < str.length(); i++) {
+			int now = str.charAt(i);	
+			
+			
+			
+			if (prev != now) {		
+				
+				if ( check[now - 'a'] == false ) {
+					check[now - 'a'] = true;		
+					prev = now;					
+				}
+	 
+				
+				else {
+					return false;	//함수 종료
+				}
+			}
+	        
+	        
+			
+			else {
+				continue;
+			}
+		}    
+		return true;
+	}
 }
+    
+    
