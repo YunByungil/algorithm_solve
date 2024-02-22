@@ -32,14 +32,13 @@ public class Main {
         }
         
         System.out.println(dp[n]);
-        System.out.print(n + " ");
-        // System.out.println("gd = " + arr[n]);
+        int result = n;
         while (true) {
-            if (arr[n] == 0) {
+            System.out.print(result + " ");
+            if (result == 1) {
                 break;
             }
-            System.out.print(arr[n] + " ");
-            n = arr[n];
+            result = arr[result];
         }
 	}
 }
