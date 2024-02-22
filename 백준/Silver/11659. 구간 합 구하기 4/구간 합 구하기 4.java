@@ -3,18 +3,19 @@ import java.io.*;
 
 public class Main {
     public static int n, m;
-    public static int[] arr, dp;
+    public static int[] arr, red, green, blue;
+    public static int[] dp;
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        StringBuilder sb = new StringBuilder();
-
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
+        StringTokenizer st = null;
+        st = new StringTokenizer(br.readLine());
+        
         n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
         arr = new int[n + 1];
         dp = new int[n + 1];
-        m = Integer.parseInt(st.nextToken());
-
+        
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
@@ -25,16 +26,16 @@ public class Main {
             dp[i] = dp[i - 1] + arr[i];
         }
         
-        for (int count = 0; count < m; count++) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
             int result = 0;
-            
-            result = Math.abs(dp[start - 1] - dp[end]);
+            result = dp[b] - dp[a - 1];
             
             System.out.println(result);
         }
-        
-    }
+	}
 }
+    
+    
