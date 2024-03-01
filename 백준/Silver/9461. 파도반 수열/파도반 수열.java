@@ -2,29 +2,31 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    public static int n;
+    public static long[] arr;
+    public static long[] dp;
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
+        StringTokenizer st = null;
+        
         int t = Integer.parseInt(br.readLine());
+        arr = new long[101];
+        dp = new long[n + 1];
         
-        int[] arr = new int[101];
-        long[] dp = new long[101];
+        arr[1] = 1;
+        arr[2] = 1;
+        arr[3] = 1;
         
-        
-        
-        for (int count = 0; count < t; count++) {
-            int n = Integer.parseInt(br.readLine());
-            dp[1] = 1;
-            dp[2] = 1;
-            dp[3] = 1;
-            dp[4] = 2;
-            dp[5] = 2;
-            for (int i = 6; i <= n; i++) {
-                dp[i] = dp[i - 3] + dp[i - 2];
-            }
-            
-            System.out.println(dp[n]);
+        for (int i = 4; i <= 100; i++) {
+            arr[i] = arr[i - 2] + arr[i - 3];
         }
         
+        for (int count = 0; count < t; count++) {
+            n = Integer.parseInt(br.readLine());
+            System.out.println(arr[n]);
+        }
     }
 }
+    
+    
