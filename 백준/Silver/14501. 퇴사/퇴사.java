@@ -2,32 +2,45 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    public static int n;
+    public static int[] arr, t, p;
+    public static int[] dp;
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
+        StringTokenizer st = null;
         
-        int n = Integer.parseInt(br.readLine());
-        int[] t = new int[n];
-        int[] p = new int[n];
-        int[] dp = new int[n + 1];
+        n = Integer.parseInt(br.readLine());
+        arr = new int[n + 100];
+        t = new int[n + 100];
+        p = new int[n + 100];
+        dp = new int[n + 100];
         
-        
-        for (int i = 0; i < n; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            t[i] = Integer.parseInt(st.nextToken());
-            p[i] = Integer.parseInt(st.nextToken());
+        for (int i = 1; i <= n; i++) {
+            st = new StringTokenizer(br.readLine());
+            int numT = Integer.parseInt(st.nextToken());
+            int numP = Integer.parseInt(st.nextToken());
+            t[i] = numT;
+            p[i] = numP;
         }
         
-        for (int i = 0; i < n; i++) {
-            if (i + t[i] <= n) {
-                dp[i + t[i]] = Math.max(dp[i + t[i]], p[i] + dp[i]);
+        int answer = 0;
+        for (int i = n; i >= 1; i--) {
+            if (t[i] + i <= n + 1) {
+                dp[i] += Math.max(dp[t[i] + i] + p[i], dp[i + 1]);
+            } else {
+                dp[i] = dp[i + 1];
             }
-            
-            dp[i + 1] = Math.max(dp[i + 1], dp[i]);
         }
         
-
-        System.out.println(dp[n]);
+        
+        for (int i = 1; i <= n; i++) {
+            answer = Math.max(answer, dp[i]);
+            // System.out.println(dp[i]);
+        }
+        System.out.println(answer);
         
     }
 }
+    
+    
