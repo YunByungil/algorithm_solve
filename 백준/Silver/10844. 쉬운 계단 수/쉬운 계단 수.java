@@ -2,8 +2,8 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n;
-    public static int[] arr, t, p;
+    public static int n, m, t;
+    public static int[][] arr, tmp;
     public static long[][] dp;
     
     public static void main(String[] args) throws IOException {
@@ -12,7 +12,6 @@ public class Main {
         
         n = Integer.parseInt(br.readLine());
         dp = new long[n + 1][10];
-        
         for (int i = 1; i < 10; i++) {
             dp[1][i] = 1;
         }
@@ -30,6 +29,12 @@ public class Main {
             }
         }
         
+        // for (int i = 1; i <= n; i++) {
+        //     for (int j = 1; j < 10; j++) {
+        //         System.out.print(dp[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
         long answer = 0;
         for (int i = 0; i < 10; i++) {
             answer += dp[n][i];
