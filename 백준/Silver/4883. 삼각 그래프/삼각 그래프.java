@@ -1,0 +1,66 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static int n, m, t, k;
+    public static int[][] arr, tmp;
+    public static long[][] dp;
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
+        StringTokenizer st = null;
+        
+        int count = 0;
+        while (true) {
+            count++;
+            int n = Integer.parseInt(br.readLine());
+            if (n == 0) {
+                break;
+            }
+            
+            arr = new int[n][3];
+            dp = new long[n][3];
+            
+            for (int i = 0; i < n; i++) {
+                st = new StringTokenizer(br.readLine());
+                for (int j = 0; j < 3; j++) {
+                    arr[i][j] = Integer.parseInt(st.nextToken());
+                }
+            }
+            
+            dp[0][0] = 1001;
+            dp[0][1] = arr[0][1];
+            dp[0][2] = arr[0][1] + arr[0][2];
+            
+            for (int i = 1; i < n; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (j == 0) {
+                        long min = Math.min(dp[i - 1][0], dp[i - 1][1]);
+                        dp[i][j] = min + arr[i][j];
+                    } else if (j == 1) {
+                        long min = Math.min(dp[i - 1][2], 
+                                           Math.min(dp[i - 1][0], dp[i - 1][1]));
+                        min = Math.min(min, dp[i][j - 1]);
+                        dp[i][j] = min + arr[i][j];
+                    } else if (j == 2) {
+                        long min = Math.min(dp[i - 1][1], dp[i - 1][2]);
+                        min = Math.min(min, dp[i][j - 1]);
+                        dp[i][j] = min + arr[i][j];
+                    }
+                }
+            }
+            
+            // for (int i = 0; i < n; i++) {
+            //     for (int j = 0; j < 3; j++) {
+            //         System.out.print(dp[i][j] + " ");
+            //     }
+            //     System.out.println();
+            // }
+            
+            System.out.println(count + ". " + dp[n - 1][1]);
+        }
+        
+    }
+}
+    
+    
