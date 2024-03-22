@@ -1,34 +1,32 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    
-    public static void main(String[] args) throws IOException {
+    public static int n;
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
-        
-        int n = Integer.parseInt(br.readLine());
-        Map<String, Integer> map = new HashMap<>();
-        
-        
+
+        Map<String, String> map = new HashMap<>();
+        n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             String name = st.nextToken();
-            String log = st.nextToken();
-            
-            map.put(name, map.getOrDefault(name, 0) + 1);
-        }
-        
-        List<String> list = new ArrayList<>();
-        for (String s : map.keySet()) {
-            if (map.get(s) % 2 != 0) {
-                list.add(s);
+            String status = st.nextToken();
+
+            if (status.equals("leave")) {
+                map.remove(name);
+            } else {
+                map.put(name, status);
             }
         }
-        
+
+        List<String> list = new ArrayList<>(map.keySet());
         Collections.sort(list, Collections.reverseOrder());
-        for (String answer : list) {
-            System.out.println(answer);
+
+        for (String s : list) {
+            System.out.println(s);
         }
     }
 }
