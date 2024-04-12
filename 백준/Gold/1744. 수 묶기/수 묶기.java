@@ -1,51 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static int n;
-    public static int sum;
-    public static int one;
-    public static PriorityQueue<Integer> positiveNumber = new PriorityQueue<>(Comparator.reverseOrder());
-    public static PriorityQueue<Integer> negativeNumber = new PriorityQueue<>();
+    public static int n, m, k, t, w;
+    public static int[] arr, tmp;
+    public static int[] dp;
+    public static int answer;
+    public static PriorityQueue<Integer> minus = new PriorityQueue<>();
+    public static PriorityQueue<Integer> plus = new PriorityQueue<>(Comparator.reverseOrder());
+    
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
+        StringTokenizer st = null;
+        
         n = Integer.parseInt(br.readLine());
-
+        
         for (int i = 0; i < n; i++) {
-            int number = Integer.parseInt(br.readLine());
-            if (number <= 0) {
-                negativeNumber.add(number);
-            } else if (number > 1) {
-                positiveNumber.add(number);
-            } else if (number == 1) {
-                one++;
+            int num = Integer.parseInt(br.readLine());
+            if (num <= 0) {
+                minus.add(num);
+            } else if (num == 1) {
+                answer++;
+            } else {
+                plus.add(num);
             }
         }
-
-
-//        while (!positiveNumber.isEmpty()) {
-//            System.out.println("positiveNumber = " + positiveNumber.poll());
-//        }
-//        while (!negativeNumber.isEmpty()) {
-//            System.out.println("positiveNumber = " + negativeNumber.poll());
-//        }
-        getMax(positiveNumber);
-        getMax(negativeNumber);
-        sum += one;
-
-        System.out.println(sum);
+        
+        cal(minus);
+        cal(plus);
+        System.out.println(answer);
+        
+        
     }
-
-    public static void getMax(PriorityQueue<Integer> pq) {
+    
+    public static void cal(PriorityQueue<Integer> pq) {
         while (pq.size() > 1) {
-            sum += (pq.poll() * pq.poll());
+            answer += (pq.poll() * pq.poll());
         }
-
+        
         if (pq.size() == 1) {
-            sum += pq.poll();
+            answer += pq.poll();
         }
     }
 }
+    
+    
