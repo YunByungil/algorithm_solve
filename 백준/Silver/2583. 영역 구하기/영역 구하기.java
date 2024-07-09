@@ -2,16 +2,20 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int m, n, k, answer, wide; // m: 세로, n: 가로, k: 분리된 영역
+    public static int n, m, k, t, w, answer;
     public static int[] dx = {0, 0, -1, 1};
     public static int[] dy = {-1, 1, 0, 0};
-    public static boolean[][] visit;
+    // public static int[] dx = {1, 2, 1, 2, -1, -2, -1, -2};
+    // public static int[] dy = {-2, -1, 2, 1, -2, -1, 2, 1};
     public static int[][] arr;
+    public static boolean[][] visit;
+    // public static int[] arr;
+    // public static boolean[] visit;
     public static Queue<int[]> q = new LinkedList<>();
     public static List<Integer> list = new ArrayList<>();
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
         StringTokenizer st = null;
         
         st = new StringTokenizer(br.readLine());
@@ -19,22 +23,29 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
         
-        arr = new int[m][n];
-        visit = new boolean[m][n];
+        arr = new int[m + 1][n + 1];
+        visit = new boolean[m + 1][n + 1];
         
+        // m = 5 m - y를 해야 된다.
         for (int count = 0; count < k; count++) {
             st = new StringTokenizer(br.readLine());
+            int leftX = Integer.parseInt(st.nextToken());
+            int leftY = Integer.parseInt(st.nextToken());
+            int rightX = Integer.parseInt(st.nextToken());
+            int rightY = Integer.parseInt(st.nextToken());
             
-            int startX = Integer.parseInt(st.nextToken());
-            int startY = m - Integer.parseInt(st.nextToken());
+            leftY = m - leftY - 1;
+            rightY = m - rightY;
+            rightX--;
             
-            int endX = Integer.parseInt(st.nextToken());
-            int endY = m - Integer.parseInt(st.nextToken());
-            
-            for (int i = endY; i < startY; i++) {
-                for (int j = startX; j < endX; j ++) {
+            int leftMin = Math.min(leftY, rightY);
+            int leftMax = Math.max(leftY, rightY);
+            int rightMin = Math.min(leftX, rightX);
+            int rightMax = Math.max(leftX, rightX);
+            // System.out.println(leftMin + " " + leftMax + " " + rightMin + " " + rightMax);
+            for (int i = leftMin; i <= leftMax; i++) {
+                for (int j = rightMin; j <= rightMax; j++) {
                     visit[i][j] = true;
-                    arr[i][j] = 1;
                 }
             }
         }
@@ -42,29 +53,25 @@ public class Main {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (!visit[i][j]) {
-                    wide = 1;
-                    answer++;
-                    bfs(i, j);
-                    list.add(wide);
+                    visit[i][j] = true;
+                    q.offer(new int[]{i, j});
+                    bfs();
                 }
             }
         }
         
-        System.out.println(answer);
-        
         Collections.sort(list);
-        for (int l : list) {
-            System.out.print(l + " ");
+        System.out.println(list.size());
+        for (Integer i : list) {
+            System.out.print(i + " ");
         }
         
     }
     
-    public static void bfs(int x, int y) {
-        q.offer(new int[]{x, y});
-        visit[x][y] = true;
-        
-        
-        while (!q.isEmpty()) {
+    public static void bfs() {
+        int result = 0;
+        while(!q.isEmpty()) {
+            result++;
             int[] nowLocation = q.poll();
             int nowX = nowLocation[0];
             int nowY = nowLocation[1];
@@ -77,12 +84,16 @@ public class Main {
                     continue;
                 }
                 
-                if (arr[newX][newY] == 0 && !visit[newX][newY]) {
+                if (!visit[newX][newY]) {
                     visit[newX][newY] = true;
-                    wide++;
                     q.offer(new int[]{newX, newY});
                 }
             }
         }
+        
+        list.add(result);
+        
     }
 }
+    
+    
