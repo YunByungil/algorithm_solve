@@ -2,16 +2,20 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n, answer;
+    public static int n, m, k, t, w, answer;
     public static int[] dx = {0, 0, -1, 1};
     public static int[] dy = {-1, 1, 0, 0};
-    public static boolean[][] visit;
+    // public static int[] dx = {1, 2, 1, 2, -1, -2, -1, -2};
+    // public static int[] dy = {-2, -1, 2, 1, -2, -1, 2, 1};
     public static int[][] arr;
+    public static boolean[][] visit;
+    // public static int[] arr;
+    // public static boolean[] visit;
     public static Queue<int[]> q = new LinkedList<>();
     public static List<Integer> list = new ArrayList<>();
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
         StringTokenizer st = null;
         
         n = Integer.parseInt(br.readLine());
@@ -20,31 +24,33 @@ public class Main {
         
         for (int i = 0; i < n; i++) {
             String input = br.readLine();
-            for (int j = 0; j < input.length(); j++) {
+            for (int j = 0; j < n; j++) {
                 arr[i][j] = input.charAt(j) - '0';
             }
         }
         
+        int result = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (!visit[i][j] && arr[i][j] == 1) {
+                if (arr[i][j]  == 1 && !visit[i][j]) {
+                    result++;
                     bfs(i, j);
-                }
+                } 
             }
         }
+
+        System.out.println(result);
         
         Collections.sort(list);
-        System.out.println(answer);
-        for (int result : list) {
-            System.out.println(result);
+        for (Integer i : list) {
+            System.out.println(i);
         }
     }
     
     public static void bfs(int x, int y) {
         int count = 1;
-        q.offer(new int[]{x, y});
         visit[x][y] = true;
-        answer++;
+        q.offer(new int[]{x, y});
         
         while (!q.isEmpty()) {
             int[] nowLocation = q.poll();
@@ -70,3 +76,5 @@ public class Main {
         list.add(count);
     }
 }
+    
+    
