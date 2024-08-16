@@ -2,57 +2,62 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static int n, max, result, answer;
+    public static int n, m, k, t, w, answer;
+    public static int f, s, g, u, d;
     public static int[] dx = {0, 0, -1, 1};
     public static int[] dy = {-1, 1, 0, 0};
+    // public static int[] dx = {1, 2, 1, 2, -1, -2, -1, -2};
+    // public static int[] dy = {-2, -1, 2, 1, -2, -1, 2, 1};
+    public static int[][] arr;
+    public static int[][] map;
     public static boolean[][] visit;
-    public static int[][] arr, arr2;
+    // public static int[] arr;
+    // public static boolean[] visit;
     public static Queue<int[]> q = new LinkedList<>();
+    // public static Queue<Integer> q = new LinkedList<>();
+    // public static List<Integer> list = new ArrayList<>();
     
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));        
         StringTokenizer st = null;
-        
+
         n = Integer.parseInt(br.readLine());
         arr = new int[n][n];
-        arr2 = new int[n][n];
         visit = new boolean[n][n];
         
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
                 arr[i][j] = Integer.parseInt(st.nextToken());
-                arr2 = arr;
-                max = Math.max(max, arr[i][j]);
             }
         }
         
-        
-        for (int count = 0; count <= max; count++) {
-            result = 0;
-            block(count);
+        int answer = 0;
+        for (int k = 0; k <= 100; k++) {
+            visit = new boolean[n][n];
+            int count = 0;
+            rain(k);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (!visit[i][j]) {
-                        result++;
-                        bfs(i, j);                        
+                        count++;
+                        bfs(i, j);
                     }
                 }
             }
-            arr2 = arr;
-            visit = new boolean[n][n];
-            
-            answer = Math.max(result, answer);
+            answer = Math.max(answer, count);
         }
-        
         System.out.println(answer);
+        
     }
     
-    public static void bfs(int x, int y) {
+    public static int bfs(int x, int y) {
+        int count = 0;
         q.offer(new int[]{x, y});
         visit[x][y] = true;
         
         while (!q.isEmpty()) {
+            count++;
             int[] nowLocation = q.poll();
             int nowX = nowLocation[0];
             int nowY = nowLocation[1];
@@ -66,23 +71,25 @@ public class Main {
                 }
                 
                 if (!visit[newX][newY]) {
-                    q.offer(new int[]{newX, newY});
                     visit[newX][newY] = true;
+                    q.offer(new int[]{newX, newY});
                 }
             }
-            
-            
-            
         }
+        
+        return count;
     }
     
-    public static void block(int num) {
+    public static void rain(int num) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (arr2[i][j] <= num) {
+                if (arr[i][j] <= num) {
                     visit[i][j] = true;
                 }
             }
         }
+        
     }
 }
+    
+    
