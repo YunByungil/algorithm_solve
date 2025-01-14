@@ -1,26 +1,23 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = null;
-        
-        int[] arr = new int[5];
-        int sum = 0;
+        int avg = 0;
         int mid = 0;
         
+        int[] arr = new int[5];
         for (int i = 0; i < 5; i++) {
-            int num = Integer.parseInt(br.readLine());
-            arr[i] = num;
-            sum += num;
+            arr[i] = Integer.parseInt(br.readLine());
+            avg += arr[i];
         }
         
         Arrays.sort(arr);
-        mid = arr[2];
         
-        System.out.println(sum / 5);
-        System.out.println(mid);
-        
+        System.out.println(avg / 5);
+        System.out.println(arr[2]);
     }
 }
+    
+    
