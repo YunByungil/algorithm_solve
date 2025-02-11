@@ -12,43 +12,26 @@ public class Main {
             arr[i] = num;
             max += num;
         }
-
-        int start = 0;
-        int end = 0;
-        int sIndex = 0;
-        int eIndex = 0;
-        int result = 0;
+        
+        Arrays.sort(arr);
+        int fake1 = 0;
+        int fake2 = 0;
         for (int i = 0; i < 8; i++) {
-            start = arr[i];
-            result = 0;
             for (int j = i + 1; j < 9; j++) {
-                end = arr[j];
-                int num = start + end;
-
-                result = max - num;
-                if (result == 100) {
-                    sIndex = i;
-                    eIndex = j;
-                    break;
+                if (max - arr[i] - arr[j] == 100) {
+                    fake1 = arr[i];
+                    fake2 = arr[j];
                 }
             }
-            if (result == 100) {
-                break;
-            }
         }
-
-        List<Integer> list = new ArrayList<>();
+        
         for (int i = 0; i < n; i++) {
-            if (i == sIndex || i == eIndex) {
+            if (arr[i] == fake1 || arr[i] == fake2) {
                 continue;
             }
-            list.add(arr[i]);
+            System.out.println(arr[i]);
         }
 
-        Collections.sort(list);
-        for (Integer i : list) {
-            System.out.println(i);
-        }
         
         
     }
