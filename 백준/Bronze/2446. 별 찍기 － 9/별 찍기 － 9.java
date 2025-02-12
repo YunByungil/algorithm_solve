@@ -1,30 +1,42 @@
-import java.util.*;
-import java.io.*;
-
+import java.util.Scanner;
+ 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = null;
+ 
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+ 
+		int N = in.nextInt();
+ 
+		// 역삼각형 코드
+		for (int i = 0; i < N; i++) {	// 1 ~ N
+ 
+			// 공백
+			for (int j = 0; j < i; j++) {
+				System.out.print(" ");
+			}
+ 
+			// 별
+			for (int k = 0; k < (2 * N - 1) - (2 * i); k++) {
+				System.out.print("*");
+			}
+ 
+			System.out.println();
+		}
+ 
+		// 삼각형 코드
+		for (int i = 0; i < N - 1; i++) {	// N+1 ~ 2N-1
         
-        int n = Integer.parseInt(br.readLine());
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j < i; j++) {
-                System.out.print(" ");
-            }
-            for (int k = 0; k <= 2 * (n - i); k++) {
-                System.out.print("*");
-            }
-            System.out.println();
-        }
-        
-        for (int i = n - 1; i >= 1; i--) { // i = 4, 3, 2, 1
-            for (int j = 2; j <= i; j++) {
-                System.out.print(" ");
-            }
-            for (int k = 0; k <= 2 * (n - i); k++) {
-                System.out.print("*");
-            }
-            System.out.println();
-        }
-    }
+			// 공백
+			for (int j = 1; j < (N - 1) - i; j++) {	
+				System.out.print(" ");
+			}
+ 
+			// 별
+			for (int k = 0; k < 3 + 2 * i; k++) {
+				System.out.print("*");
+			}
+			System.out.println();
+		}
+	}
+ 
 }
