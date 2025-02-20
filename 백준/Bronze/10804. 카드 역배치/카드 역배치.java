@@ -11,20 +11,32 @@ public class Main {
             arr[i] = i;
         }
         
+        
         for (int i = 0; i < 10; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            int mid = (b - a) / 2;
-            for (int j = 0; j <= mid; j++) {
-                int temp = arr[a + j];
-                arr[a + j] = arr[b - j];
-                arr[b - j] = temp;
+            int mid = (a + b) / 2;
+
+            int sum = a + b;
+            if (sum % 2 != 0) {
+                mid++;
+            }
+//             System.out.println(mid);
+//             // int size = b - a;
+//             // System.out.println("size = " + size);
+
+            for (int j = a; j < mid; j++) {
+                int tmp = arr[j];
+                arr[j] = arr[b];
+                arr[b] = tmp;
+
+                b--;
             }
         }
-
         for (int i = 1; i <= 20; i++) {
             System.out.print(arr[i] + " ");
         }
+        
     }
 }
