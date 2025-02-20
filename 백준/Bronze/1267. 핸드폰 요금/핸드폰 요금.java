@@ -18,37 +18,30 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
         
-        int resultM = 0;
-        int m = 0;
-        int mod = 0;
-        for (int i : arr) {
-            resultM = 0;
-            resultM += i / 60;
-            if (i % 60 != 0 || i % 60 == 0) {
-                resultM++;
-            } 
-            m += (15 * resultM);
-        }
-        
-        int resultY = 0;
+        // 영식
         int y = 0;
-        for (int i : arr) {
-            resultY = 0;
-            resultY += i / 30;
-            if (i % 30 != 0 || i % 30 == 0) {
-                resultY++;
-            }
-            
-            y += (10 * resultY);
+        for (int i = 0; i < n; i++) {
+            int num = arr[i] / 30;
+            num += 1;            
+            y += num * 10;
         }
-        
-        int answer = Math.min(y, m);
-        if (y == m) {
-            System.out.print("Y M " + answer);
+
+        // 민식
+        int m = 0;
+        for (int i = 0; i < n; i++) {
+            int num = arr[i] / 60;
+            num += 1;
+            m += num * 15;
+        }
+
+        if (y < m) {
+            System.out.print("Y ");
+            System.out.print(y);
         } else if (y > m) {
-            System.out.print("M " + answer);
-        } else if (y < m) {
-            System.out.print("Y " + answer);
+            System.out.print("M ");
+            System.out.print(m);
+        } else {
+            System.out.print("Y M " + y);
         }
         
     }
