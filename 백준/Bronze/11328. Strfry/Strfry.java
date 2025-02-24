@@ -5,43 +5,43 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
-        
-        int n = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
         
+        int n = Integer.parseInt(br.readLine());
+        
         for (int i = 0; i < n; i++) {
-            int[] arr = new int[26];
-            int[] result = new int[26];
-            boolean b = false;
+            boolean answer = true;
+            int[] arr = new int[27];
+            int[] arr2 = new int[27];
             st = new StringTokenizer(br.readLine());
-            String word = st.nextToken();
-            
             String input = st.nextToken();
-            for (int j = 0; j < word.length(); j++) {
-                int wordInt = word.charAt(j) - 'a';
-                arr[wordInt]++;
-            }
+            
+            String strfry = st.nextToken();
             
             for (int j = 0; j < input.length(); j++) {
-                int inputInt = input.charAt(j) - 'a';
-                result[inputInt]++;
+                int num = input.charAt(j) - 'a';
+                arr[num]++;
             }
             
-            for (int j = 0; j < 26; j++) {
-                if (arr[j] != result[j]) {
-                    b = true;
+            for (int j = 0; j < strfry.length(); j++) {
+                int num = strfry.charAt(j) - 'a';
+                arr2[num]++;
+            }
+            
+            for (int j = 0; j < 27; j++) {
+                if (arr[j] != arr2[j]) {
+                    answer = false;
                     break;
                 }
             }
             
-            if (b) {
-                sb.append("Impossible").append("\n");
+            if (answer) {
+                System.out.println("Possible");
             } else {
-                sb.append("Possible").append("\n");
+                System.out.println("Impossible");
             }
         }
         
         
-        System.out.println(sb);
     }
 }
