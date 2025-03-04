@@ -1,100 +1,94 @@
 import java.util.*;
 import java.io.*;
 
+
 public class Main {
-    public static boolean state = false;
-    public static int reverse = 1;
-    public static LinkedList<Integer> q = new LinkedList<>();
+    public static Deque<Integer> q;
+    public static boolean answer = true;
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
         StringBuilder sb = new StringBuilder();
 
-        // R: 뒤집기, D: 첫 번째 수 버리기 isEmpty일 때 D 사용하면 에러 발생
-        // RDD는 배열을 뒤집은 다음, 처음 두 수를 버리는 함수
-        
         int t = Integer.parseInt(br.readLine());
-        for (int i = 0; i < t; i++) {
-            
-            reverse = 1;
-            state = false;
-            q = new LinkedList<>();
-            String p = br.readLine(); // 명령어
-            
+
+        // R = 순서 뒤집기, D = 버리기
+        for (int count = 0; count < t; count++) {
+            answer = true;
+            String input = br.readLine();
             int n = Integer.parseInt(br.readLine());
-            int[] arr = new int[n]; // 배열
-            String str = br.readLine();
-            if (n == -1) {
-                System.out.println("error");
-                continue;
-            } else {
-                arr = split(str);
-                for (int j = 0; j < p.length(); j++) {
-                    char command = p.charAt(j);
-                    if (state) {
-                        break;
-                    }
-                    if (command == 'R') {
-                        reverse++;
+            q = new LinkedList<>();
+            boolean result = true; // true일 경우 정방향
+            String number = br.readLine();
+            number = number.replace("[", "").replace("]", "");
+            String[] str = number.split(",");
+
+            for (int i = 0; i < n; i++) {
+                q.offer(Integer.parseInt(str[i]));
+            }
+
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
+
+                if (c == 'R') {
+                    result = !result;
+                }
+
+                if (c == 'D') {
+                    if (result) {
+                        left();
                     } else {
-                        poll();
+                        right();
                     }
                 }
             }
-            
-            if (!state) {
-                print();
+
+            if (!answer) {
+                sb.append("error").append("\n");
+            } else {
+                sb.append("[");
+
+                if (result) {
+                    while (q.size() > 1) {
+                        sb.append(q.poll()).append(",");
+                    }
+                    if (!q.isEmpty()) {
+                        sb.append(q.poll());
+                    }
+                    sb.append("]").append("\n");
+                } else {
+                    while (q.size() > 1) {
+                        sb.append(q.pollLast()).append(",");
+                    }
+                    if (!q.isEmpty()) {
+                        sb.append(q.pollLast());
+                    }
+                    sb.append("]").append("\n");
+                }
             }
-            System.out.println();
-            
         }
+
+
+
+        System.out.println(sb);
+
+
     }
-    
-    public static int[] split(String input) {
-        if (input.length() == 2) {
-            return null;
-        }
-        input = input.substring(1, input.length() - 1);
-        String[] stringArr = input.split(",");
-        
-        int[] intArr = new int[stringArr.length];
-        for (int i = 0; i < intArr.length; i++) {
-            intArr[i] = Integer.parseInt(stringArr[i]);
-            q.offer(intArr[i]);
-        }
-        
-        return intArr;
-    }
-    
-    public static void poll() {
+
+    public static void left() {
         if (q.isEmpty()) {
-            System.out.print("error");
-            state = true;
-            return;
+            answer = false;
+        } else {
+            q.poll();
         }
-        if (reverse % 2 != 0) {
-            q.pollFirst();
+    }
+
+    public static void right() {
+        if (q.isEmpty()) {
+            answer = false;
         } else {
             q.pollLast();
         }
-    }
-    
-    public static void print() {
-        if (q.isEmpty()) {
-            System.out.print("[]");
-            return;
-        }
-        System.out.print("[");
-        if (reverse % 2 != 0) {
-            while (q.size() > 1) {
-                System.out.print(q.poll() + ",");
-            }
-        } else {
-            while (q.size() > 1) {
-                System.out.print(q.pollLast() + ",");
-            }
-        }
-        System.out.print(q.poll());
-        System.out.print("]");
     }
 }
