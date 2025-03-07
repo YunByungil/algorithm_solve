@@ -1,26 +1,28 @@
 import java.util.*;
 import java.io.*;
 
+
 public class Main {
-    public static int n, m, count, result, maxArea;
-    public static int[] dx = {-1, 1, 0, 0};
-    public static int[] dy = {0, 0, -1, 1};
+    public static int n, m;
     public static int[][] arr;
-    public static boolean[][] visit;
     public static Queue<int[]> q = new LinkedList<>();
+    public static int answer;
+    public static int[] dx = {0, 0, 1, -1};
+    public static int[] dy = {1, -1, 0, 0};
+    public static boolean[][] visit;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
+        StringBuilder sb = new StringBuilder();
         
         st = new StringTokenizer(br.readLine());
+        
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         
         arr = new int[n][m];
         visit = new boolean[n][m];
-        
-        
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < m; j++) {
@@ -28,23 +30,30 @@ public class Main {
             }
         }
         
+        int count = 0;
+        int a = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (arr[i][j] == 1 && !visit[i][j]) {
-                    result = 1;
-                    q.offer(new int[]{i, j});
                     visit[i][j] = true;
+                    a = bfs(i, j);
                     count++;
-                    bfs();
+                    answer = Math.max(answer, a);
                 }
             }
         }
         
         System.out.println(count);
-        System.out.println(maxArea);
+        System.out.println(answer);
+        
+        
     }
     
-    public static void bfs() {
+    public static int bfs(int x, int y) {
+        int result = 1;
+        q = new LinkedList<>();
+        q.offer(new int[]{x, y});
+        
         while (!q.isEmpty()) {
             int[] nowLocation = q.poll();
             int nowX = nowLocation[0];
@@ -59,13 +68,15 @@ public class Main {
                 }
                 
                 if (arr[newX][newY] == 1 && !visit[newX][newY]) {
-                    result++;
                     visit[newX][newY] = true;
+                    result++;
                     q.offer(new int[]{newX, newY});
                 }
+                
             }
         }
         
-        maxArea = Math.max(maxArea, result);
+        return result;
+        
     }
 }
